@@ -1,4 +1,7 @@
+import { error } from '@angular/compiler/src/util';
 import { Component, OnInit } from '@angular/core';
+import { Member } from 'src/app/_models/member';
+import { MembersService } from 'src/app/_services/members.service';
 
 @Component({
   selector: 'app-member-list',
@@ -7,9 +10,22 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MemberListComponent implements OnInit {
 
-  constructor() { }
+  membersList: Member[];
+
+  constructor(
+    private _membersService: MembersService
+  ) { }
 
   ngOnInit(): void {
+    this.loadMembers();
+  }
+
+  loadMembers() {
+    this._membersService.getMembers().subscribe(
+      members => {
+        this.membersList = members;
+      }
+    );
   }
 
 }
