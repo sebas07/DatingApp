@@ -26,12 +26,13 @@ namespace API.Services
             var credentials = new SigningCredentials(this._key, SecurityAlgorithms.HmacSha512Signature);
             var claims = new List<Claim>
             {
-                new Claim(JwtRegisteredClaimNames.NameId, user.UserName)
+                new Claim(JwtRegisteredClaimNames.NameId, user.Id.ToString()),
+                new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName)
             };
             var tokenDescriptor = new SecurityTokenDescriptor
             {
-                Subject = new ClaimsIdentity(claims), 
-                Expires = DateTime.Now.AddDays(7), 
+                Subject = new ClaimsIdentity(claims),
+                Expires = DateTime.Now.AddDays(7),
                 SigningCredentials = credentials
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
